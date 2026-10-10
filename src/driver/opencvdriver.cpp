@@ -104,11 +104,7 @@ void OpenCVDriver::setResolution(uint32_t width, uint32_t height) {
 }
 
 float OpenCVDriver::getExposure() {
-	if(capture.get(cv::CAP_PROP_AUTO_EXPOSURE) == 1.0) {
-		return 0.0f;
-	} else {
-    	return (float)capture.get(cv::CAP_PROP_EXPOSURE) / 1000.0f;
-	}
+	return (float)capture.get(cv::CAP_PROP_EXPOSURE) / 1000.0f;
 }
 
 void OpenCVDriver::setExposure(float exposure) {
