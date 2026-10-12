@@ -22,37 +22,6 @@ OpenCVDriver::OpenCVDriver(const CameraConfig& config): capture(config.path, cv:
 
 	// Use compressed data stream to unlock the highest resolution - framerate combination on USB2 cameras
 	capture.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
-
-	if(config.autoResolution()) {
-		capture.set(cv::CAP_PROP_FRAME_WIDTH, INT_MAX);
-		capture.set(cv::CAP_PROP_FRAME_HEIGHT, INT_MAX);
-	} else {
-		capture.set(cv::CAP_PROP_FRAME_WIDTH, config.width);
-		capture.set(cv::CAP_PROP_FRAME_HEIGHT, config.height);
-	}
-
-	if(config.autoExposure()) {
-		capture.set(cv::CAP_PROP_AUTO_EXPOSURE, 1.0);
-	} else {
-		capture.set(cv::CAP_PROP_AUTO_EXPOSURE, 0.0);
-		capture.set(cv::CAP_PROP_EXPOSURE, config.exposure * 1000.0);
-	}
-
-	if(!config.autoGain()) {
-		capture.set(cv::CAP_PROP_GAIN, config.gain);
-	}
-
-	if(config.autoGamma()) {
-		capture.set(cv::CAP_PROP_GAMMA, config.gamma);
-	}
-
-	if(config.whiteBalanceType != WhiteBalanceType_Manual) {
-		capture.set(cv::CAP_PROP_AUTO_WB, 1.0);
-	} else {
-		capture.set(cv::CAP_PROP_AUTO_WB, 0.0);
-		capture.set(cv::CAP_PROP_WHITE_BALANCE_BLUE_U, config.whiteBalanceBlue);
-		capture.set(cv::CAP_PROP_WHITE_BALANCE_RED_V, config.whiteBalanceRed);
-	}
 }
 
 std::shared_ptr<RawImage> OpenCVDriver::readImage() {
@@ -99,6 +68,11 @@ uint32_t OpenCVDriver::getHeight() {
 }
 
 void OpenCVDriver::setResolution(uint32_t width, uint32_t height) {
+	if(width == 0 || height == 0) {
+		width = INT_MAX;
+		height = INT_MAX;
+	}
+
 	capture.set(cv::CAP_PROP_FRAME_WIDTH, width);
 	capture.set(cv::CAP_PROP_FRAME_HEIGHT, height);
 }
@@ -122,6 +96,10 @@ float OpenCVDriver::getGain() {
 }
 
 void OpenCVDriver::setGain(float gain) {
+	if(gain == 0.0f) {
+		gain = -1.0f;
+	}
+
 	capture.set(cv::CAP_PROP_GAIN, gain);
 }
 

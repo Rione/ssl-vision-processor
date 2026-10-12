@@ -54,37 +54,6 @@ MVImpactDriver::MVImpactDriver(const CameraConfig& config): device(getDevice(con
 	settings.cameraSetting.pixelFormat.write(TImageBufferPixelFormat::ibpfMono8);
 	settings.imageDestination.pixelFormat.write(TImageDestinationPixelFormat::idpfRaw);
 
-	if(!config.autoResolution()) {
-		settings.imageDestination.imageWidth.write(config.width);
-		settings.imageDestination.imageHeight.write(config.height);
-	}
-
-	if(config.autoExposure()) {
-		settings.cameraSetting.autoExposeControl.write(TAutoExposureControl::aecOn);
-	} else {
-		settings.cameraSetting.autoExposeControl.write(TAutoExposureControl::aecOff);
-		settings.cameraSetting.expose_us.write((int)(config.exposure * 1000));
-	}
-
-	if(config.autoGain()) {
-		settings.cameraSetting.autoGainControl.write(TAutoGainControl::agcOn);
-	} else {
-		settings.cameraSetting.autoGainControl.write(TAutoGainControl::agcOff);
-		settings.cameraSetting.gain_dB.write(config.gain);
-	}
-
-	if(config.whiteBalanceType != WhiteBalanceType_Manual) {
-		settings.imageProcessing.whiteBalanceCalibration.write(TWhiteBalanceCalibrationMode::wbcmNextFrame);
-	} else {
-		settings.imageProcessing.whiteBalanceCalibration.write(TWhiteBalanceCalibrationMode::wbcmOff);
-		WhiteBalanceSettings& wb = settings.imageProcessing.getWBUserSetting(0);
-		wb.restoreDefault();
-		wb.blueGain.write(config.whiteBalanceBlue);
-		wb.redGain.write(config.whiteBalanceRed);
-		settings.imageProcessing.whiteBalance.write(TWhiteBalanceParameter::wbpUser1);
-	}
-
-
 	//TODO user supplied memory functionality to prevent copies https://wassets.balluff.com/documents/DRF_957352_AA_000/CaptureToUserMemory_8cpp-example.html
 
 	provider = std::make_unique<mvIMPACT::acquire::helper::RequestProvider>(device);
@@ -131,6 +100,11 @@ uint32_t MVImpactDriver::getHeight() {
 }
 
 void MVImpactDriver::setResolution(uint32_t width, uint32_t height) {
+	if(width == 0 || height == 0) {
+		width = settings.imageDestination.imageWidth.getMaxValue();
+		height = settings.imageDestination.imageHeight.getMaxValue();
+	}
+
 	settings.imageDestination.imageWidth.write(width);
 	settings.imageDestination.imageHeight.write(height);
 }
