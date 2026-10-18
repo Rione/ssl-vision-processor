@@ -97,7 +97,7 @@ void RTPStreamer::allocResources() {
 		FATAL("Failed to find suitable encoder.");
 	}
 
-	LOG("Using codec: " << codec->long_name);
+	VP_LOG("Using codec: " << codec->long_name);
 
 	fmtCtx  = avformat_alloc_context();
 	auto* avFormat = (AVOutputFormat*)av_guess_format("rtp", nullptr, nullptr);

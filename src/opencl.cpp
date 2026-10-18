@@ -57,7 +57,7 @@ bool OpenCL::searchDevice(const std::vector<cl::Platform>& platforms, cl_device_
 
 		for(cl::Device& d : devices) {
 			device = d;
-			LOG("Using device: " << platform.getInfo<CL_PLATFORM_NAME>() << " » " << device.getInfo<CL_DEVICE_NAME>());
+			VP_LOG("Using device: " << platform.getInfo<CL_PLATFORM_NAME>() << " » " << device.getInfo<CL_DEVICE_NAME>());
 			return true;
 		}
 	}

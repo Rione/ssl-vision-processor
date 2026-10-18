@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
  */
-#ifdef MVIMPACT
+#ifdef MVIMPACT_AVAILABLE
 
 #include "mvimpactdriver.h"
 #include <mvIMPACT_CPP/mvIMPACT_acquire_GenICam.h>

@@ -14,7 +14,7 @@
      limitations under the License.
  */
 #pragma once
-#ifdef MVIMPACT
+#ifdef MVIMPACT_AVAILABLE
 
 #include "cameradriver.h"
 #include <mvIMPACT_CPP/mvIMPACT_acquire.h>

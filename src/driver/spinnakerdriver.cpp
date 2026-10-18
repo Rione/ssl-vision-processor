@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
  */
-#ifdef SPINNAKER
+#ifdef SPINNAKER_AVAILABLE
 
 #include "spinnakerdriver.h"
 
@@ -44,7 +44,7 @@ SpinnakerDriver::SpinnakerDriver(const CameraConfig& config) {
 		if (camList.GetSize() > config.hardwareId) {
 			pCam = camList.GetByIndex(config.hardwareId);
 			pCam->Init();
-			LOG("Opened " << pCam->DeviceModelName.GetValue() << " - " << pCam->DeviceSerialNumber.GetValue().c_str());
+			VP_LOG("Opened " << pCam->DeviceModelName.GetValue() << " - " << pCam->DeviceSerialNumber.GetValue().c_str());
 			camList.Clear();
 			break;
 		}
