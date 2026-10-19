@@ -230,7 +230,7 @@ void Resources::reloadConfigIfChanged() {
 	try {
 		YAML::Node config = YAML::LoadFile(configPath);
 		applyTunables(config);
-		LOG("Reloaded tunables from " << configPath);
+		VP_LOG("Reloaded tunables from " << configPath);
 	} catch(const YAML::Exception& e) {
 		WARN("Config reload failed, keeping previous values: " << e.what());
 	}

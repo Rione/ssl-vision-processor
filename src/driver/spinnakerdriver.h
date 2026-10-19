@@ -14,7 +14,7 @@
      limitations under the License.
  */
 #pragma once
-#ifdef SPINNAKER
+#ifdef SPINNAKER_AVAILABLE
 
 #include "cameradriver.h"
 #include "Spinnaker.h"
