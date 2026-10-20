@@ -37,6 +37,7 @@ public:
 
 	// Raw Bayer formats
 	static const PixelFormat RGGB8;
+	static const PixelFormat BGGR8;
 	static const PixelFormat GRBG8;
 
 	static const PixelFormat BGR8;

@@ -28,6 +28,7 @@ const PixelFormat PixelFormat::F32 = PixelFormat(4, 1, false, CV_32FC1, {CL_R, C
 const PixelFormat PixelFormat::NV12 = PixelFormat(1, 2, true, CV_8UC1, {CL_R, CL_UNSIGNED_INT8}); //Do not use as OpenCL image format or with OpenCV, intended for usage with RTPStreamer (TODO overallocated, actual necessary size is just 3/2)
 
 const PixelFormat PixelFormat::RGGB8 = PixelFormat(2, 2, true, CV_8UC1, {CL_R, CL_UNSIGNED_INT8}, "-DRGGB");
+const PixelFormat PixelFormat::BGGR8 = PixelFormat(2, 2, true, CV_8UC1, {CL_R, CL_UNSIGNED_INT8}, "-DBGGR");
 const PixelFormat PixelFormat::GRBG8 = PixelFormat(2, 2, true, CV_8UC1, {CL_R, CL_UNSIGNED_INT8}, "-DGRBG");
 const PixelFormat PixelFormat::BGR8 = PixelFormat(3, 1, true, CV_8UC3, {CL_RGB, CL_UNSIGNED_INT8}, "-DBGR"); //Do not use as OpenCL image format, CL_RGB seldomly supported by hardware
 
