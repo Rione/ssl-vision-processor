@@ -100,6 +100,11 @@ color:
   # Strength of the previous color during color updates (0.0 - 1.0-reference_force)
   #history_force: 0.7
 
+  # Colors are given in the brightness independent dRGB space of the flat image: (2*c - other two channels + 510) / 4,
+  # e.g. gray, black and white all map to [128, 128, 128].
+  # A blob is only a ball if its color is closer to orange than to the field, and its hue (direction away from gray)
+  # is closer to orange than to every marker color below. This keeps marker blobs of partially hidden robots from being
+  # detected as balls, so set all reference colors to the colors your camera sees.
   # Reference colors used for ball determination
   #orange: [192, 128, 64]
   #field: [128, 128, 128]

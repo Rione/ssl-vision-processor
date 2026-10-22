@@ -124,7 +124,7 @@ void VisionSocket::geometryCheck() {
 			ballRadius = geometry.field().ball_radius();
 
 		geometryVersion++;
-		VP_LOG("New geometry received");
+		LOG("New geometry received");
 	}
 	geometryMutex.unlock();
 }
@@ -319,11 +319,11 @@ void GCSocket::parse(char *data, int length) {
 
 	if(botHeights.find(referee.yellow().name()) != botHeights.end() && botHeights[referee.yellow().name()] != yellowBotHeight) {
 		yellowBotHeight = botHeights[referee.yellow().name()];
-		VP_LOG("Updated yellow bot height to " << yellowBotHeight << "mm");
+		LOG("Updated yellow bot height to " << yellowBotHeight << "mm");
 	}
 
 	if(botHeights.find(referee.blue().name()) != botHeights.end() && botHeights[referee.blue().name()] != blueBotHeight) {
 		blueBotHeight = botHeights[referee.blue().name()];
-		VP_LOG("Updated blue bot height to " << blueBotHeight << "mm");
+		LOG("Updated blue bot height to " << blueBotHeight << "mm");
 	}
 }

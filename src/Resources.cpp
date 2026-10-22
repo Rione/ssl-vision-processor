@@ -74,14 +74,7 @@ Resources::Resources(const std::string& configPath) : fieldReference(), configPa
 		configMtime = (int64_t)st.st_mtim.tv_sec * 1000000000 + st.st_mtim.tv_nsec;
 
 	openCl = std::make_shared<OpenCL>();
-
-	CameraConfig camConfig(getOptional(config["camera"]));
-	camera = openCamera(camConfig);
-	camera->setResolution(camConfig.width, camConfig.height);
-	camera->setExposure(camConfig.exposure);
-	camera->setGain(camConfig.gain);
-	camera->setGamma(camConfig.gamma);
-	camera->setWhiteBalance(camConfig.whiteBalanceType, camConfig.whiteBalanceBlue, camConfig.whiteBalanceRed);
+	camera = openCamera(CameraConfig(getOptional(config["camera"])));
 
 	camId = config["cam_id"].as<int>(0);
 	if (camId < 0 || camId > 7) {
@@ -237,7 +230,7 @@ void Resources::reloadConfigIfChanged() {
 	try {
 		YAML::Node config = YAML::LoadFile(configPath);
 		applyTunables(config);
-		VP_LOG("Reloaded tunables from " << configPath);
+		LOG("Reloaded tunables from " << configPath);
 	} catch(const YAML::Exception& e) {
 		WARN("Config reload failed, keeping previous values: " << e.what());
 	}

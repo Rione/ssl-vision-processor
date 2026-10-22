@@ -16,10 +16,10 @@
 #include "cameradriver.h"
 
 #include "driver/opencvdriver.h"
-#ifdef SPINNAKER_AVAILABLE
+#ifdef SPINNAKER
 #include "driver/spinnakerdriver.h"
 #endif
-#ifdef MVIMPACT_AVAILABLE
+#ifdef MVIMPACT
 #include "driver/mvimpactdriver.h"
 #endif
 
@@ -76,12 +76,12 @@ bool CameraConfig::autoGamma() const {
 
 
 std::unique_ptr<CameraDriver> openCamera(const CameraConfig& config) {
-#ifdef SPINNAKER_AVAILABLE
+#ifdef SPINNAKER
 	if(config.driverType == "SPINNAKER")
 		return std::make_unique<SpinnakerDriver>(config);
 #endif
 
-#ifdef MVIMPACT_AVAILABLE
+#ifdef MVIMPACT
 	if(config.driverType == "MVIMPACT")
 		return std::make_unique<MVImpactDriver>(config);
 #endif

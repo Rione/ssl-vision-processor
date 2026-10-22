@@ -362,7 +362,7 @@ int main(int argc, char* argv[]) {
 
 #if BENCHMARK
 			detection->set_t_sent(startTime + processingTime);
-			VP_LOG("time " << processingTime * 1000.0 << " ms " << matches.size() << " blobs " << detection->balls().size() << " balls " << (detection->robots_yellow_size() + detection->robots_blue_size()) << " bots");
+			LOG("time " << processingTime * 1000.0 << " ms " << matches.size() << " blobs " << detection->balls().size() << " balls " << (detection->robots_yellow_size() + detection->robots_blue_size()) << " bots");
 			r.openCl->printRuntimes();
 #else
 			detection->set_t_sent(r.camera->getTime());
@@ -372,7 +372,7 @@ int main(int argc, char* argv[]) {
 			r.openCl->clearEvents();
 
 			if(processingTime > r.camera->expectedFrametime())
-				VP_LOG("frame time overrun: " << processingTime * 1000.0 << " ms " << matches.size() << " blobs " << detection->balls().size() << " balls " << (detection->robots_yellow_size() + detection->robots_blue_size()) << " bots");
+				LOG("frame time overrun: " << processingTime * 1000.0 << " ms " << matches.size() << " blobs " << detection->balls().size() << " balls " << (detection->robots_yellow_size() + detection->robots_blue_size()) << " bots");
 
 			if(r.rawFeed) {
 				r.streamQuad(channels);
@@ -417,11 +417,11 @@ int main(int argc, char* argv[]) {
 				r.snapshotWriter->offer(r.quad2rgba(channels), "img/" + std::to_string(r.camId) + ".raw.jpg");
 				lastDebugSaveTime = realStartTime;
 				if(frameId == 100)
-					VP_LOG("Saved sample image");
+					LOG("Saved sample image");
 			}
 		}
 	}
 
-	VP_LOG("Stopping vision_processor");
+	LOG("Stopping vision_processor");
 	return 0;
 }

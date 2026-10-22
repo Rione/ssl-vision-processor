@@ -80,7 +80,13 @@ void BallHypothesis::addToDetectionFrame(const Resources& r, SSL_DetectionFrame*
 	ball->set_pixel_y(imgPos.y());
 }
 
+// Direction of a dRGB color away from gray. Unlike the color distance it stays the same when a color is mixed with gray (motion blur, blob border).
+static inline Eigen::Vector3f hue(const Eigen::Vector3i& color) {
+	return (color.cast<float>() - Eigen::Vector3f(127.5f, 127.5f, 127.5f)).normalized();
+}
+
 void BallHypothesis::calcColorScore(const Resources& r) {
+	markerColor = false;
 	int falseOrange = (blob->color - r.field).squaredNorm();
 	int orange = (blob->color - r.orange).squaredNorm();
 	int fieldLine = (blob->color - r.fieldLineColor).squaredNorm();
@@ -88,6 +94,17 @@ void BallHypothesis::calcColorScore(const Resources& r) {
 	if (falseOrange <= orange || fieldLine <= orange) {
 		score = 0;
 		return;
+	}
+
+	// Marker blobs of partially hidden robots are not part of any bot hypothesis, they must not pass as ball by their color
+	const Eigen::Vector3f blobHue = hue(blob->color);
+	const float orangeSimilarity = blobHue.dot(hue(r.orange));
+	for (const Eigen::Vector3i& marker : {r.pink, r.yellow, r.green, r.blue}) {
+		if (blobHue.dot(hue(marker)) >= orangeSimilarity) {
+			markerColor = true;
+			score = 0;
+			return;
+		}
 	}
 
 	score *= 1 - (float)orange / (float)falseOrange;

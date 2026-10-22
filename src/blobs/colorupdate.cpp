@@ -109,7 +109,8 @@ void updateColors(Resources& r, const std::list<std::unique_ptr<BotHypothesis>>&
 
 	std::vector<Eigen::Vector3i> ballBlobs;
 	for (const auto& ball : ballCandidates)
-		ballBlobs.push_back(ball->blob->center);
+		if(!ball->markerColor) // Marker blobs of hidden robots would pull the orange reference towards their color
+			ballBlobs.push_back(ball->blob->center);
 
 	if(kMeans(r.blue, ballBlobs, r.orange, r.field)) {
 		updateColor(r, r.orangeReference, oldOrange, r.orange);

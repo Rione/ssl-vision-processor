@@ -33,6 +33,7 @@ public:
 	const Match* blob;
 	Eigen::Vector2f pos = {0, 0};
 	float score = 1.0f;
+	bool markerColor = false; // hue closer to a robot marker color than to orange
 
 private:
 	void calcColorScore(const Resources& r);

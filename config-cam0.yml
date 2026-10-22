@@ -1,0 +1,56 @@
+# Minimal vision_processor configuration
+
+# Vision camera ID handled by this vision_processor instance.
+# On multi camera fields the IDs have to be ordered according to camera_ids.png.
+cam_id: 0
+
+camera:
+  driver: OPENCV
+  path: /dev/video2
+  # 露出 [ms]。KS2A103 は 31.2 / 15.6 / 7.8 / 3.9ms の段階でしか変わらず、間の値は近い段階に丸められる。
+  # 31.2ms 以上は白い物が白飛びし、7.8ms 以下は黒が浮いてかすむ。
+  exposure: 15.6
+  # gain はカメラの生の値 (0〜511)。明るさに比例せず、24 以上で急に白飛びが増える (64 で大きく白飛び、128 でほぼ真っ白)。
+  gain: 16.0
+  # 1.0 = gamma 補正なし。上げると明るくなるが黒が浮いてコントラストが下がる。
+  gamma: 1.0
+  # Uncomment if you have a Teledyne FLIR (Spinnaker) camera. Set the Spinnaker camera id of this instance.
+  #id: 0
+  # Uncomment if you have a Bluefox3 (mvIMPACT) camera. Set the mvIMPACT camera id of this instance.
+  #driver: MVIMPACT
+  #id: 0
+  # Uncomment if you have a video4linux2 (OPENCV) camera. Set the camera (or video) file path.
+  #driver: OPENCV
+  #path: /dev/video0
+
+  # Uncomment if your carpet isn't green and you use a Spinnaker camera.
+  #white_balance: INDOOR
+
+geometry:
+  # Total camera amount over the field.
+  camera_amount: 1
+  # Camera height above the field in mm.
+  # If your camera doesn't look perpendicular to the field you can let it at 0.0 for automatic camera height calibration.
+  camera_height: 2600.0
+
+  # Field line crossings at the edges of the camera extent in pixels from the top left image corner.
+  # The first coordinate must be the edge with the smallest x and y field coordinate.
+  line_corners:
+  - [302.0, 794.2]
+  - [358.4, 27.3]
+  - [1581.7, 156.6]
+  - [1499.3, 871.3]
+
+color:
+  # 部室の照明・このカメラ（exposure 15.6 / gain 16）で実測した色（dRGB、2026-10-15）。
+  # ボールの判定は「床よりオレンジに近い」かつ「色相がどのマーカー色よりオレンジに近い」こと。
+  # 照明やカメラの設定を変えたら測り直すこと。
+  orange: [209, 109, 64]
+  field: [127, 128, 128]
+  yellow: [154, 160, 68]
+  blue: [73, 124, 186]
+  green: [102, 168, 113]
+  pink: [186, 94, 102]
+
+stream:
+  raw_feed: true
